@@ -12,4 +12,4 @@ env:
 
 stop:
 	@ echo "Stopping app..."
-	@ docker-compose down --rmi=all -v --remove-orphans
+	@ docker-compose down -v --remove-orphans # --rmi=all

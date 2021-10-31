@@ -5,8 +5,8 @@ networks:
 
 services:
   scrapper:
-    build: .
-    image: stdi0/scrapper_binance_announce_page
+    # build: .
+    image: scrapper_binance_announce_page
     container_name: scrapper_binance_announce_page
     environment:
       - POSTGRES_HOST=$POSTGRES_HOST
@@ -16,6 +16,24 @@ services:
       - POSTGRES_DB=$POSTGRES_DB
     depends_on:
       - postgres
+    networks:
+      - app
+
+  worker:
+    # build: .
+    image: worker_binance_announce
+    container_name: worker_binance_announce
+    environment:
+      - QUANTITY_USDT=$QUANTITY_USDT
+      - GATEIO_API_KEY=$GATEIO_API_KEY
+      - GATEIO_API_SECRET=$GATEIO_API_SECRET
+      - POSTGRES_HOST=$POSTGRES_HOST
+      - POSTGRES_PORT=$POSTGRES_PORT
+      - POSTGRES_USER=$POSTGRES_USER
+      - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+      - POSTGRES_DB=$POSTGRES_DB
+    depends_on:
+      - scrapper
     networks:
       - app
 
