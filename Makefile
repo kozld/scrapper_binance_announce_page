@@ -8,7 +8,7 @@ env:
 	@ echo "Check .env file exist..."
 	@ ([ -f .env ] && echo ".env file found") || (echo "Make sure the .env file exists" && exit 1)
 	@ echo "Sourcing .env..."
-	@ . .env && echo "ok"
+	@ . ./.env && echo "ok"
 
 stop:
 	@ echo "Stopping app..."

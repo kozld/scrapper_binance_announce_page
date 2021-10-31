@@ -6,7 +6,7 @@ networks:
 services:
   scrapper:
     # build: .
-    image: scrapper_binance_announce_page
+    image: deniskozlov94/first # scrapper_binance_announce_page
     container_name: scrapper_binance_announce_page
     environment:
       - POSTGRES_HOST=$POSTGRES_HOST
@@ -21,7 +21,7 @@ services:
 
   worker:
     # build: .
-    image: worker_binance_announce
+    image: deniskozlov94/second # worker_binance_announce
     container_name: worker_binance_announce
     environment:
       - QUANTITY_USDT=$QUANTITY_USDT
@@ -39,7 +39,7 @@ services:
 
   postgres:
     image: postgres:latest
-    platform: linux/x86_64
+    # platform: linux/x86_64
     restart: always
     container_name: postgres
     command: postgres -c listen_addresses='*'
