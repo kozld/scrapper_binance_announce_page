@@ -3,7 +3,7 @@ FROM golang:alpine as builder
 RUN apk update && apk add --no-cache git ca-certificates && update-ca-certificates
 
 WORKDIR /go/src/build
-ADD .. .
+COPY . .
 
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app ./cmd
 
