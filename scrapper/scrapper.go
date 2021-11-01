@@ -35,18 +35,23 @@ func NewScrapper(config *config.ScrapperConfig, db *database.Database) *Scrapper
 func (s *Scrapper) Scrap() {
 
 	s.collector.OnHTML("a.css-1ej4hfo", func(e *colly.HTMLElement) {
-		log.Printf("[ANNOUNCE] %s\n", e.Text)
+		// We want only latest announce
+		if e.Index > 0 {
+			return
+		}
+
+		log.Printf("Announce found: %s\n", e.Text)
 		log.Println("Saving to db...")
 
 		// Save announce to db
 		err := s.saveToDB(e.Text)
 		if err != nil {
-			log.Printf("[ERROR] %s\n\n", err.Error())
+			log.Printf("error: %s\n\n", err.Error())
 			return
 		}
 
 		// If success, print ok
-		log.Printf("Ok\n\n")
+		log.Printf("ok\n\n")
 	})
 
 	s.collector.Visit(BinanceAnnouncePage)
@@ -67,7 +72,7 @@ func (s *Scrapper) saveToDB(text string) error {
 	err := s.db.Conn.QueryRow(database.InsertQuery, string(hash[:]), text).Err()
 	// If error, try reconnect to db...
 	if err != nil {
-		log.Printf("[ERROR] %s", err.Error())
+		log.Printf("error: %s", err.Error())
 		log.Println("Trying reconnect to db after 3 sec...")
 		time.Sleep(3 * time.Second)
 

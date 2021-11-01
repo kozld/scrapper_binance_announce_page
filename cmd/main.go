@@ -25,7 +25,7 @@ func main() {
 		log.Println("Trying connect to database...")
 		db, err = database.NewDatabase(dbConf)
 		if err != nil {
-			log.Printf("[ERROR] %s", err.Error())
+			log.Printf("error: %s", err.Error())
 			log.Println("Trying reconnect after 3 sec...")
 			time.Sleep(3 * time.Second)
 		} else {
